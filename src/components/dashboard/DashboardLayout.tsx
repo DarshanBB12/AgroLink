@@ -1,6 +1,6 @@
 import { ReactNode, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Bell, BarChart3, Calendar, Check, ChevronDown, Cloud, CreditCard, Globe, Home, Languages, Leaf, LogOut, MapPin, MessageCircle, Package, Sprout, Settings, Star, SunMedium, MoonStar, Tractor, Users, Wallet, User, Menu, X, Wifi, WifiOff, ShoppingBag, Phone, IndianRupee, Search } from "lucide-react";
+import { Bell, BarChart3, Bot, Calendar, Check, ChevronDown, Cloud, CreditCard, Globe, Home, Languages, Leaf, LogOut, MapPin, MessageCircle, Package, Sprout, Settings, Star, SunMedium, MoonStar, Tractor, Users, Wallet, User, Menu, X, Wifi, WifiOff, ShoppingBag, Phone, IndianRupee, Search } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTheme } from "@/contexts/ThemeContext";
 import { LANGUAGES, useLanguage } from "@/contexts/LanguageContext";
@@ -39,6 +39,7 @@ const navKeyMap: Record<string, string> = {
   Reviews: "reviews",
   "EMI / Loans": "emi",
   Search: "search",
+  "AI Assistant": "aiAssistant",
 };
 
 const roleNavItems = {
@@ -56,6 +57,7 @@ const roleNavItems = {
     { icon: IndianRupee, label: "EMI / Loans", path: "/dashboard/farmer/emi" },
     { icon: MessageCircle, label: "Chat", path: "/dashboard/farmer/chat" },
     { icon: Cloud, label: "Weather", path: "/dashboard/farmer/weather" },
+    { icon: Bot, label: "AI Assistant", path: "/dashboard/farmer/ai" },
     { icon: Bell, label: "Notifications", path: "/dashboard/farmer/notifications" },
     { icon: Settings, label: "Settings", path: "/dashboard/farmer/settings" },
   ],
@@ -67,6 +69,7 @@ const roleNavItems = {
     { icon: Package, label: "Rented Out", path: "/dashboard/owner/rentals" },
     { icon: Wallet, label: "Earnings", path: "/dashboard/owner/earnings" },
     { icon: Cloud, label: "Weather", path: "/dashboard/owner/weather" },
+    { icon: Bot, label: "AI Assistant", path: "/dashboard/owner/ai" },
     { icon: MessageCircle, label: "Chat", path: "/dashboard/owner/chat" },
     { icon: Bell, label: "Notifications", path: "/dashboard/owner/notifications" },
     { icon: Settings, label: "Settings", path: "/dashboard/owner/settings" },
@@ -78,6 +81,7 @@ const roleNavItems = {
     { icon: Star, label: "Reviews", path: "/dashboard/worker/reviews" },
     { icon: CreditCard, label: "Earnings", path: "/dashboard/worker/earnings" },
     { icon: Cloud, label: "Weather", path: "/dashboard/worker/weather" },
+    { icon: Bot, label: "AI Assistant", path: "/dashboard/worker/ai" },
     { icon: MessageCircle, label: "Chat", path: "/dashboard/worker/chat" },
     { icon: Bell, label: "Notifications", path: "/dashboard/worker/notifications" },
     { icon: Settings, label: "Settings", path: "/dashboard/worker/settings" },
@@ -93,6 +97,7 @@ const roleNavItems = {
     { icon: CreditCard, label: "Payments", path: "/dashboard/admin/payments" },
     { icon: IndianRupee, label: "EMI / Loans", path: "/dashboard/admin/emi" },
     { icon: Cloud, label: "Weather", path: "/dashboard/admin/weather" },
+    { icon: Bot, label: "AI Assistant", path: "/dashboard/admin/ai" },
     { icon: Bell, label: "Notifications", path: "/dashboard/admin/notifications" },
     { icon: Settings, label: "Settings", path: "/dashboard/admin/settings" },
   ],

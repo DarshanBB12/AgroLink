@@ -1,5 +1,5 @@
 import { lazy, Suspense, useState } from "react";
-import { Box, MapPin, Navigation, RotateCw, Star } from "lucide-react";
+import { Box, Heart, MapPin, Navigation, RotateCw, Scale, Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -32,10 +32,25 @@ interface ListingCardProps {
   onAction?: (l: Listing) => void;
   secondaryAction?: { label: string; onClick: (l: Listing) => void; variant?: "outline" | "destructive" };
   hideAction?: boolean;
+  isFavorite?: boolean;
+  onToggleFavorite?: (id: string) => void;
+  isComparing?: boolean;
+  onToggleCompare?: (l: Listing) => void;
 }
 
 // One card for equipment, workers, seeds and fertilizers. Flip it for specifications; equipment also has a 3D preview.
-export const ListingCard = ({ listing, onOpen, actionLabel, onAction, secondaryAction, hideAction }: ListingCardProps) => {
+export const ListingCard = ({
+  listing,
+  onOpen,
+  actionLabel,
+  onAction,
+  secondaryAction,
+  hideAction,
+  isFavorite,
+  onToggleFavorite,
+  isComparing,
+  onToggleCompare,
+}: ListingCardProps) => {
   const { t } = useLanguage();
   const [flipped, setFlipped] = useState(false);
   const [show3d, setShow3d] = useState(false);
@@ -48,7 +63,7 @@ export const ListingCard = ({ listing, onOpen, actionLabel, onAction, secondaryA
   const rows = specRows(listing);
 
   return (
-    <article className="agro-card agro-card-interactive h-full" data-testid="listing-card" aria-label={listing.name}>
+    <article className="agro-card agro-card-interactive h-full relative group" data-testid="listing-card" aria-label={listing.name}>
       {flipped ? (
         <div className="agro-card-body" data-testid="listing-card-back">
           <div className="flex items-center justify-between">
@@ -75,11 +90,44 @@ export const ListingCard = ({ listing, onOpen, actionLabel, onAction, secondaryA
         </div>
       ) : (
         <>
-          <div className="agro-card-media">
+          <div className="agro-card-media relative">
             {imageUrl ? <img src={imageUrl} alt={listing.name} loading="lazy" /> : <span aria-hidden="true">{emoji}</span>}
             <Badge className="absolute left-3 top-3 capitalize">{t(`app.types.${listing.type}`)}</Badge>
-            {discount > 0 && <Badge variant="destructive" className="absolute right-3 top-3">-{discount}%</Badge>}
-            <div className="absolute bottom-2 right-2 flex gap-1">
+            
+            <div className="absolute right-3 top-3 flex items-center gap-1.5 z-10">
+              {discount > 0 && <Badge variant="destructive">-{discount}%</Badge>}
+              {onToggleFavorite && (
+                <Button
+                  size="icon"
+                  variant="secondary"
+                  className="h-8 w-8 rounded-full bg-background/80 backdrop-blur hover:bg-background shadow-xs"
+                  aria-label="Add to favorites"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onToggleFavorite(listing.id);
+                  }}
+                >
+                  <Heart className={`h-4 w-4 transition-colors ${isFavorite ? "fill-rose-500 text-rose-500" : "text-muted-foreground"}`} />
+                </Button>
+              )}
+            </div>
+
+            <div className="absolute bottom-2 right-2 flex gap-1 z-10">
+              {onToggleCompare && (
+                <Button
+                  size="icon"
+                  variant={isComparing ? "default" : "secondary"}
+                  className="h-8 w-8"
+                  aria-label="Compare listing"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onToggleCompare(listing);
+                  }}
+                  title={isComparing ? "Remove from comparison" : "Add to comparison"}
+                >
+                  <Scale className="h-4 w-4" />
+                </Button>
+              )}
               {listing.type === "equipment" && (
                 <Button size="icon" variant="secondary" className="h-8 w-8" aria-label={t("app.card.preview3d")} onClick={() => setShow3d(true)}>
                   <Box className="h-4 w-4" />

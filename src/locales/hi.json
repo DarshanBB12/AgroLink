@@ -61,7 +61,8 @@
     "reviews": "समीक्षाएं",
     "emi": "ईएमआई / ऋण",
     "search": "खोजें",
-    "gpsMap": "जीपीएस मैप"
+    "gpsMap": "जीपीएस मैप",
+    "aiAssistant": "एआई सहायक"
   },
   "dashboardTitles": {
     "farmer": "किसान डैशबोर्ड",
@@ -629,7 +630,8 @@
         "search": "सब खोजें",
         "seeds": "बीज खरीदें",
         "weather": "मौसम",
-        "workers": "श्रमिक रखें"
+        "workers": "श्रमिक रखें",
+        "ai": "एआई कृषि"
       },
       "activeJobs": "सक्रिय कार्य",
       "activeRentals": "सक्रिय किराये",

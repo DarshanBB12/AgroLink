@@ -85,7 +85,8 @@
     "reviews": "Reviews",
     "emi": "EMI / Loans",
     "search": "Search",
-    "gpsMap": "GPS Map"
+    "gpsMap": "GPS Map",
+    "aiAssistant": "AI Assistant"
   },
   "dashboard": {
     "changeLanguage": "Change Language"
@@ -629,7 +630,8 @@
         "search": "Search all",
         "seeds": "Buy seeds",
         "weather": "Weather",
-        "workers": "Hire workers"
+        "workers": "Hire workers",
+        "ai": "AI Farming"
       },
       "activeJobs": "Active jobs",
       "activeRentals": "Active rentals",

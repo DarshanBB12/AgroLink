@@ -17,6 +17,7 @@ const { sendCsv } = require("../utils/csv");
 const { notify } = require("../utils/notify");
 const Seed = require("../models/Seed");
 const Fertilizer = require("../models/Fertilizer");
+const AuditLog = require("../models/AuditLog");
 
 const ROLES = ["farmer", "worker", "equipment_owner", "admin"];
 const PLANS = ["farmer_free", "farmer_pro", "equipment_owner", "enterprise"];
@@ -71,6 +72,19 @@ const updateUser = asyncHandler(async (req, res) => {
   // Bump the token version when access is revoked so existing sessions stop working immediately.
   if (isActive === false || role !== undefined) user.tokenVersion = (user.tokenVersion || 0) + 1;
   await user.save();
+
+  // Audit Log
+  await AuditLog.create({
+    action: isActive === false ? "USER_DEACTIVATED" : isActive === true ? "USER_ACTIVATED" : "USER_UPDATED",
+    actorId: req.user._id,
+    actorRole: req.user.role,
+    targetType: "user",
+    targetId: String(user._id),
+    details: { updatedFields: { isActive, role, planCode }, targetEmail: user.email },
+    severity: isActive === false ? "warning" : "info",
+    ipAddress: req.ip,
+  }).catch(() => {});
+
   res.status(200).json({ success: true, message: "User updated", data: serializeAdmin(user) });
 });
 
@@ -136,4 +150,28 @@ const exportUsersCsv = asyncHandler(async (req, res) => {
   return sendCsv(res, "users-report.csv", rows.length ? rows : [{ userId: "", name: "", email: "", role: "", phone: "", location: "", active: "", createdAt: "" }]);
 });
 
-module.exports = { listUsers, createUser, updateUser, deleteUser, getSettings, updateSettings, announce, exportUsersCsv };
+const getAuditLogs = asyncHandler(async (req, res) => {
+  const pg = parsePagination(req.query, { defaultLimit: 25, maxLimit: 100 });
+  const filter = {};
+  if (req.query.severity) filter.severity = req.query.severity;
+  if (req.query.action) filter.action = req.query.action;
+  if (req.query.targetType) filter.targetType = req.query.targetType;
+
+  const [total, logs] = await Promise.all([
+    AuditLog.countDocuments(filter),
+    AuditLog.find(filter)
+      .populate("actorId", "name email role")
+      .sort({ createdAt: -1 })
+      .skip(pg.skip)
+      .limit(pg.limit)
+      .lean(),
+  ]);
+
+  res.status(200).json({
+    success: true,
+    data: logs,
+    pagination: buildPagination(pg, total),
+  });
+});
+
+module.exports = { listUsers, createUser, updateUser, deleteUser, getSettings, updateSettings, announce, exportUsersCsv, getAuditLogs };

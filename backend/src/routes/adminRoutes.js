@@ -17,6 +17,7 @@ router.put("/orders/:id/status", orders.updateOrderStatus);
 router.get("/settings", c.getSettings);
 router.put("/settings", c.updateSettings);
 router.post("/announcements", c.announce);
+router.get("/audit-logs", c.getAuditLogs);
 
 router.get("/exports/users", c.exportUsersCsv);
 router.get("/exports/orders", orders.exportOrdersCsv);

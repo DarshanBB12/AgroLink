@@ -3,28 +3,54 @@ const Equipment = require("../models/Equipment");
 const Worker = require("../models/Worker");
 const Order = require("../models/Order");
 const Loan = require("../models/Loan");
+const Seed = require("../models/Seed");
+const Fertilizer = require("../models/Fertilizer");
 const asyncHandler = require("../utils/asyncHandler");
 
 const getPlatformStats = asyncHandler(async (req, res) => {
-  const [totalUsers, totalEquipment, totalWorkers, totalOrders, roleBreakdown, statusBreakdown, paid, activeLoans] = await Promise.all([
+  const [
+    totalUsers,
+    totalEquipment,
+    totalWorkers,
+    totalOrders,
+    totalSeeds,
+    totalFertilizers,
+    roleBreakdown,
+    statusBreakdown,
+    paid,
+    activeLoans,
+    pendingOrders,
+  ] = await Promise.all([
     User.countDocuments({ isActive: true }),
     Equipment.countDocuments(),
     Worker.countDocuments(),
     Order.countDocuments(),
+    Seed.countDocuments(),
+    Fertilizer.countDocuments(),
     User.aggregate([{ $group: { _id: "$role", count: { $sum: 1 } } }]),
     Order.aggregate([{ $group: { _id: "$status", count: { $sum: 1 } } }]),
     Order.aggregate([{ $match: { paymentStatus: "paid" } }, { $group: { _id: "$paymentMode", total: { $sum: "$totalPrice" }, count: { $sum: 1 } } }]),
     Loan.countDocuments({ loanStatus: { $in: ["active", "approved"] } }),
+    Order.countDocuments({ status: "pending" }),
   ]);
+  const roleMap = Object.fromEntries(roleBreakdown.map((r) => [r._id, r.count]));
   const pick = (mode) => paid.find((p) => p._id === mode) || { total: 0, count: 0 };
+
   res.status(200).json({
     success: true,
     data: {
       totalUsers,
+      totalFarmers: roleMap.farmer || 0,
+      totalWorkers: roleMap.worker || 0,
+      totalOwners: roleMap.equipment_owner || 0,
+      totalAdmins: roleMap.admin || 0,
       totalEquipment,
-      totalWorkers,
+      totalSeeds,
+      totalFertilizers,
+      totalMarketplaceListings: totalEquipment + totalSeeds + totalFertilizers,
       totalOrders,
       totalBookings: totalOrders,
+      pendingOrders,
       activeLoans,
       // Verified gateway payments only; simulated test-mode amounts are reported separately.
       totalRevenue: pick("razorpay").total,

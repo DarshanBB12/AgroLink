@@ -73,6 +73,7 @@ const createApp = () => {
   app.use("/api/meta", require("./routes/metaRoutes"));
   app.use("/api/analytics", require("./routes/analyticsRoutes"));
   app.use("/api/emi", require("./routes/emiRoutes"));
+  app.use("/api/ai", require("./routes/aiRoutes"));
 
   app.use(notFound);
   app.use(errorHandler);

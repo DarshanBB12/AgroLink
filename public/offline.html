@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgroLink - Offline Mode</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .card {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 1rem;
+      padding: 2.5rem 2rem;
+      max-width: 440px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    }
+    .icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    h1 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 0.5rem;
+    }
+    p {
+      font-size: 0.925rem;
+      color: #64748b;
+      line-height: 1.5;
+      margin-bottom: 1.5rem;
+    }
+    .btn {
+      display: inline-block;
+      background-color: #16a34a;
+      color: white;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 0.65rem 1.25rem;
+      border-radius: 0.5rem;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.15s ease;
+    }
+    .btn:hover {
+      background-color: #15803d;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon">🌾</div>
+    <h1>No Internet Connection</h1>
+    <p>You appear to be offline or experiencing temporary connectivity loss. AgroLink will automatically reconnect once your network is restored.</p>
+    <button class="btn" onclick="window.location.reload()">Check Connection Again</button>
+  </div>
+</body>
+</html>

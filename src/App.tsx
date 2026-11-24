@@ -36,6 +36,7 @@ import WeatherPage from "./pages/dashboard/WeatherPage";
 import GpsMapPage from "./pages/dashboard/GpsMapPage";
 import NotificationsPage from "./pages/dashboard/NotificationsPage";
 import FarmerSettingsPage from "./pages/dashboard/farmer/FarmerSettingsPage";
+import AiAssistantPage from "./pages/dashboard/AiAssistantPage";
 
 import WorkerDashboard from "./pages/dashboard/WorkerDashboard";
 import MyJobsPage from "./pages/dashboard/worker/MyJobsPage";
@@ -126,11 +127,13 @@ const App = () => (
                         <Route path="/dashboard/farmer/payments/:id" element={guard(["farmer"], <TransactionDetailPage />)} />
                         <Route path="/dashboard/farmer/chat" element={guard(["farmer"], <ChatPage />)} />
                         <Route path="/dashboard/farmer/weather" element={guard(["farmer"], <WeatherPage />)} />
+                        <Route path="/dashboard/farmer/ai" element={guard(["farmer"], <AiAssistantPage role="farmer" />)} />
                         <Route path="/dashboard/farmer/notifications" element={guard(["farmer"], <NotificationsPage />)} />
                         <Route path="/dashboard/farmer/settings" element={guard(["farmer"], <FarmerSettingsPage />)} />
                         <Route path="/dashboard/worker" element={guard(["worker"], <WorkerDashboard />)} />
                         <Route path="/dashboard/worker/map" element={guard(["worker"], <GpsMapPage />)} />
                         <Route path="/dashboard/worker/weather" element={guard(["worker"], <WeatherPage />)} />
+                        <Route path="/dashboard/worker/ai" element={guard(["worker"], <AiAssistantPage role="worker" />)} />
                         <Route path="/dashboard/worker/jobs" element={guard(["worker"], <MyJobsPage />)} />
                         <Route path="/dashboard/worker/reviews" element={guard(["worker"], <ReviewsPage />)} />
                         <Route path="/dashboard/worker/earnings" element={guard(["worker"], <EarningsPage />)} />
@@ -140,6 +143,7 @@ const App = () => (
                         <Route path="/dashboard/owner" element={guard(["equipment_owner"], <OwnerDashboard />)} />
                         <Route path="/dashboard/owner/map" element={guard(["equipment_owner"], <GpsMapPage />)} />
                         <Route path="/dashboard/owner/weather" element={guard(["equipment_owner"], <WeatherPage />)} />
+                        <Route path="/dashboard/owner/ai" element={guard(["equipment_owner"], <AiAssistantPage role="owner" />)} />
                         <Route path="/dashboard/owner/listings" element={guard(["equipment_owner"], <MyListingsPage />)} />
                         <Route path="/dashboard/owner/sell-products" element={guard(["equipment_owner"], <OwnerSellProductsPage />)} />
                         <Route path="/dashboard/owner/rentals" element={guard(["equipment_owner"], <OwnerRentalsPage />)} />
@@ -150,6 +154,7 @@ const App = () => (
                         <Route path="/dashboard/admin" element={guard(["admin"], <AdminDashboard />)} />
                         <Route path="/dashboard/admin/map" element={guard(["admin"], <GpsMapPage />)} />
                         <Route path="/dashboard/admin/weather" element={guard(["admin"], <WeatherPage />)} />
+                        <Route path="/dashboard/admin/ai" element={guard(["admin"], <AiAssistantPage role="admin" />)} />
                         <Route path="/dashboard/admin/users" element={guard(["admin"], <AdminUsersPage />)} />
                         <Route path="/dashboard/admin/equipment" element={guard(["admin"], <AdminEquipmentPage />)} />
                         <Route path="/dashboard/admin/workers" element={guard(["admin"], <AdminWorkersPage />)} />
