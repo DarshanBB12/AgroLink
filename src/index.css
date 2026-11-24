@@ -1,0 +1,198 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 120 20% 98%;
+    --foreground: 150 30% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 150 30% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 150 30% 10%;
+
+    --primary: 142 64% 34%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 140 30% 94%;
+    --secondary-foreground: 150 30% 15%;
+
+    --muted: 140 15% 95%;
+    --muted-foreground: 150 10% 45%;
+
+    --accent: 80 60% 50%;
+    --accent-foreground: 150 30% 10%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 140 15% 90%;
+    --input: 140 15% 90%;
+    --ring: 142 64% 34%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 142 30% 12%;
+    --sidebar-foreground: 140 15% 90%;
+    --sidebar-primary: 80 60% 50%;
+    --sidebar-primary-foreground: 150 30% 10%;
+    --sidebar-accent: 142 30% 18%;
+    --sidebar-accent-foreground: 140 15% 90%;
+    --sidebar-border: 142 20% 20%;
+    --sidebar-ring: 80 60% 50%;
+
+    /* Custom tokens */
+    --success: 142 64% 34%;
+    --warning: 38 92% 50%;
+    --info: 210 80% 55%;
+    --gradient-hero: linear-gradient(135deg, hsl(142, 64%, 34%) 0%, hsl(80, 60%, 50%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(140, 30%, 94%) 0%, hsl(0, 0%, 100%) 100%);
+
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+
+  .dark {
+    --background: 150 30% 5%;
+    --foreground: 140 15% 90%;
+    --card: 150 25% 8%;
+    --card-foreground: 140 15% 90%;
+    --popover: 150 25% 8%;
+    --popover-foreground: 140 15% 90%;
+    --primary: 142 64% 40%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 142 20% 15%;
+    --secondary-foreground: 140 15% 90%;
+    --muted: 150 15% 15%;
+    --muted-foreground: 140 10% 55%;
+    --accent: 80 60% 45%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 150 15% 18%;
+    --input: 150 15% 18%;
+    --ring: 142 64% 40%;
+    --sidebar-background: 150 30% 5%;
+    --sidebar-foreground: 140 15% 90%;
+    --sidebar-primary: 80 60% 50%;
+    --sidebar-primary-foreground: 150 30% 10%;
+    --sidebar-accent: 142 30% 12%;
+    --sidebar-accent-foreground: 140 15% 90%;
+    --sidebar-border: 150 15% 15%;
+    --sidebar-ring: 80 60% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+}
+
+@layer utilities {
+  .gradient-hero {
+    background: var(--gradient-hero);
+  }
+  .gradient-card {
+    background: var(--gradient-card);
+  }
+  .text-gradient {
+    background: var(--gradient-hero);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+  .backface-hidden {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out;
+  }
+}
+
+/* ------------------------------------------------------------------
+   AgroLink card design system
+   Every card in the app (listings, stats, orders, payments, notifications,
+   admin) is built from these classes so radius, border, shadow, padding,
+   typography, image ratio and hover behaviour are identical everywhere.
+   ------------------------------------------------------------------ */
+@layer components {
+  .agro-card {
+    @apply flex flex-col overflow-hidden rounded-xl border border-border bg-card text-card-foreground shadow-sm transition-all duration-200;
+  }
+  .agro-card-interactive {
+    @apply hover:-translate-y-0.5 hover:shadow-md hover:border-primary/40;
+  }
+  .agro-card-media {
+    @apply relative flex aspect-[16/10] w-full items-center justify-center overflow-hidden bg-secondary text-6xl;
+  }
+  .agro-card-media img {
+    @apply h-full w-full object-cover;
+  }
+  .agro-card-body {
+    @apply flex flex-1 flex-col gap-2 p-4;
+  }
+  .agro-card-title {
+    @apply line-clamp-1 text-base font-semibold leading-tight text-foreground;
+  }
+  .agro-card-meta {
+    @apply flex items-center gap-1 text-xs text-muted-foreground;
+  }
+  .agro-card-desc {
+    @apply line-clamp-2 min-h-[2.5rem] text-sm text-muted-foreground;
+  }
+  .agro-card-footer {
+    @apply mt-auto flex items-center justify-between gap-3 border-t border-border/60 p-4 pt-3;
+  }
+  .agro-price {
+    @apply text-lg font-bold text-primary;
+  }
+  .agro-price-unit {
+    @apply ml-1 text-xs font-normal text-muted-foreground;
+  }
+  .agro-stat {
+    @apply agro-card p-4 gap-1;
+  }
+  .agro-btn {
+    @apply h-9 min-w-[96px] rounded-lg px-4 text-sm font-medium;
+  }
+  .agro-grid {
+    @apply grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4;
+  }
+  .agro-stat-grid {
+    @apply grid grid-cols-2 gap-4 lg:grid-cols-4;
+  }
+  .agro-table-wrap {
+    @apply w-full overflow-x-auto rounded-xl border border-border bg-card;
+  }
+}
+
+/* Prevent accidental horizontal scrolling on small screens */
+html, body { overflow-x: hidden; }
+img { max-width: 100%; }
